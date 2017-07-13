@@ -15,15 +15,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.common.io.Files;
+import com.google.common.io.ByteStreams;
 import com.zhangyangjing.imageresresolution.interfaces.APIService;
 import com.zhangyangjing.imageresresolution.interfaces.Api;
 import com.zhangyangjing.imageresresolution.util.SaveImgeHelper;
-import com.zhangyangjing.imageresresolution.util.Util;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +35,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements Callback<Bitmap> {
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int MAX_IAMGE_SIZE = 1500;
     private static final int PICK_IMAGE_REQUEST = 0;
 
     @BindView(R.id.rg_scale_rate) RadioGroup mRgScaleRate;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Bitmap> 
     @BindView(R.id.btn_save_image) TextView mBtnSaveImage;
     @BindView(R.id.pg_process) ProgressBar mPgProcess;
 
-    private String mPath;
+    private Uri mUri;
     private State mState;
     private Bitmap mBitmap;
 
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Bitmap> 
             case R.id.btn_start_process:
                 byte[] data;
                 try {
-                    data = Files.toByteArray(new File(mPath));
+                    data = ByteStreams.toByteArray(getContentResolver().openInputStream(mUri));
                 } catch (IOException e) {
                     e.printStackTrace();
                     return;
@@ -99,16 +99,16 @@ public class MainActivity extends AppCompatActivity implements Callback<Bitmap> 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri uri = data.getData();
-            if (false == verifyImage(uri)) {
+        if (PICK_IMAGE_REQUEST == requestCode
+                && RESULT_OK == resultCode && null != data && null != data.getData()) {
+            mUri = data.getData();
+            if (false == verifyImage()) {
                 Toast.makeText(this, "图片太大", Toast.LENGTH_LONG).show();
                 return;
             }
 
             switchState(State.SELECTED);
-            mPath = Util.getPath(this, uri);
-            mIvBefore.setImageURI(uri);
+            mIvBefore.setImageURI(mUri);
         }
     }
 
@@ -227,16 +227,19 @@ public class MainActivity extends AppCompatActivity implements Callback<Bitmap> 
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
-    private boolean verifyImage(Uri uri) {
-        String path = Util.getPath(this, uri);
-        if (null == path)
+    private boolean verifyImage() {
+        InputStream inputStream;
+        try {
+            inputStream = getContentResolver().openInputStream(mUri);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
             return false;
+        }
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-        Log.v(TAG, "path:" + path + " size w:" + options.outWidth + " h:" + options.outHeight);
-        if (options.outWidth > 1500 || options.outHeight > 1500)
+        BitmapFactory.decodeStream(inputStream, null, options);
+        if (options.outWidth > MAX_IAMGE_SIZE || options.outHeight > MAX_IAMGE_SIZE)
             return false;
 
         return true;

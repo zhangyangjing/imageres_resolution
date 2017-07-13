@@ -13,7 +13,7 @@
         android:background="@android:color/white"
         android:elevation="2dp">
 
-        <com.zhangyangjing.imageresresolution.ScrollableImageView
+        <com.zhangyangjing.imageresresolution.widget.ScrollableImageView
             android:id="@+id/iv_image_before"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -256,7 +256,7 @@
         android:background="@android:color/white"
         android:elevation="2dp">
 
-        <com.zhangyangjing.imageresresolution.ScrollableImageView
+        <com.zhangyangjing.imageresresolution.widget.ScrollableImageView
             android:id="@+id/iv_image_after"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

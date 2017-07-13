@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.zhangyangjing.imageresresolution;
+package com.zhangyangjing.imageresresolution.widget;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
