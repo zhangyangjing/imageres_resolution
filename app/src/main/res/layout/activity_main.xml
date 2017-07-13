@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1.0"
+        android:background="@android:color/white"
+        android:elevation="2dp">
+
+        <com.zhangyangjing.imageresresolution.ScrollableImageView
+            android:id="@+id/iv_image_before"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/tv_before"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="放大之前"
+            android:textColor="@color/colorBefore"
+            android:textSize="26sp"/>
+
+        <TextView
+            android:id="@+id/btn_select_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="16dp"
+            android:width="56dp"
+            android:height="56dp"
+            android:background="@drawable/floatingbuttonbg"
+            android:backgroundTint="@color/colorBefore"
+            android:gravity="center"
+            android:text="选择"
+            android:textColor="@android:color/white"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@android:color/white"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="图片风格:"
+                android:textStyle="bold"/>
+
+            <RadioGroup
+                android:id="@+id/rg_scale_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:checkedButton="@+id/rb_type_art"
+                android:orientation="horizontal">
+
+                <android.support.v4.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"/>
+
+                <RadioButton
+                    android:id="@+id/rb_type_art"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="漫画"/>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"/>
+
+                <RadioButton
+                    android:id="@+id/rb_type_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="相片"/>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="放大率:"
+                android:textStyle="bold"/>
+
+            <RadioGroup
+                android:id="@+id/rg_scale_rate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:checkedButton="@+id/rb_resize_1x"
+                android:orientation="horizontal">
+
+                <android.support.v4.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"/>
+
+                <RadioButton
+                    android:id="@+id/rb_resize_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="原始"/>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"/>
+
+                <RadioButton
+                    android:id="@+id/rb_resize_1x"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="一倍"/>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"/>
+
+                <RadioButton
+                    android:id="@+id/rb_resize_2x"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="两倍"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="降噪:"
+                android:textStyle="bold"/>
+
+            <RadioGroup
+                android:id="@+id/rg_scale_noise"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:checkedButton="@+id/rb_noise_high"
+                android:orientation="horizontal">
+
+                <android.support.v4.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"/>
+
+                <RadioButton
+                    android:id="@+id/rb_noise_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="无"/>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"/>
+
+                <RadioButton
+                    android:id="@+id/rb_noise_low"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="低"/>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"/>
+
+                <RadioButton
+                    android:id="@+id/rb_noise_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="中"/>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"/>
+
+                <RadioButton
+                    android:id="@+id/rb_noise_high"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="高"/>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"/>
+
+                <RadioButton
+                    android:id="@+id/rb_noise_extreme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="最高"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_start_process"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="开始放大图片"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1.0"
+        android:background="@android:color/white"
+        android:elevation="2dp">
+
+        <com.zhangyangjing.imageresresolution.ScrollableImageView
+            android:id="@+id/iv_image_after"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/tv_after"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="放大之后"
+            android:textColor="@color/colorAfter"
+            android:textSize="26sp"/>
+
+        <ProgressBar
+            android:id="@+id/pg_process"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/btn_save_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="16dp"
+            android:width="56dp"
+            android:height="56dp"
+            android:background="@drawable/floatingbuttonbg"
+            android:backgroundTint="@color/colorAfter"
+            android:gravity="center"
+            android:text="保存"
+            android:textColor="@android:color/white"/>
+    </RelativeLayout>
+</LinearLayout>
