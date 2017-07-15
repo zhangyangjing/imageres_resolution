@@ -16,7 +16,7 @@ public interface APIService {
     @POST("api")
     @Multipart
     Call<Bitmap> processPng(@Part("style") RequestBody type,
-                            @Part("noise") RequestBody noise,
                             @Part("scale") RequestBody scale,
+                            @Part("noise") RequestBody noise,
                             @Part("file\"; filename=\"test.png") RequestBody img);
 }
