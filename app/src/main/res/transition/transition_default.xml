@@ -1,0 +1,6 @@
+<transitionSet>
+    <changeBounds/>
+    <changeTransform/>
+    <changeClipBounds/>
+    <changeImageTransform/>
+</transitionSet>

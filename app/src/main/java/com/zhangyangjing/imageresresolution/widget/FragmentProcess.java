@@ -5,6 +5,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +65,7 @@ public class FragmentProcess extends Fragment implements Callback<Bitmap>, View.
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_process, null);
         ButterKnife.bind(this, view);
+
         return view;
     }
 
@@ -73,7 +79,10 @@ public class FragmentProcess extends Fragment implements Callback<Bitmap>, View.
 
         mUri = Uri.parse(uriStr);
         mIvProcess.setImageURI(mUri);
-        mIvProcess.setOnKeyListener(this);
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(this);
 
         byte[] data;
         try {
@@ -92,7 +101,50 @@ public class FragmentProcess extends Fragment implements Callback<Bitmap>, View.
         APIService api = Api.get().getApiService();
         mCall = api.processPng(bodyType, bodyRate, bodyNoise, bodyImage);
         mCall.enqueue(this);
+//
+//
+//        getView().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                fake();
+//            }
+//        }, 1000);
     }
+//
+//    private void fake() {
+//        InputStream is = null;
+//        try {
+//            is = getContext().getContentResolver().openInputStream(mUri);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        Bitmap image = BitmapFactory.decodeStream(is);
+//        IActivity activity = (IActivity) getActivity();
+//        activity.setImage(image);
+//
+//        Fragment fragment = FragmentResult.instance(mUri);
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//            int duration = getResources().getInteger(android.R.integer.config_mediumAnimTime);
+//
+//            Slide slideTransition = new Slide(Gravity.LEFT);
+//            slideTransition.setDuration(duration);
+//            setExitTransition(slideTransition);
+//
+//            Slide slideTransition2 = new Slide(Gravity.RIGHT);
+//            slideTransition2.setDuration(duration);
+//            fragment.setEnterTransition(slideTransition2);
+//
+//            TransitionInflater inflater = TransitionInflater.from(getContext());
+//            Transition transition = inflater.inflateTransition(R.transition.transition_default);
+//            fragment.setSharedElementEnterTransition(transition);
+//        }
+//
+//        getFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.frg_docker, fragment)
+//                .addSharedElement(mIvProcess, ViewCompat.getTransitionName(mIvProcess))
+//                .commitAllowingStateLoss();
+//    }
 
     @Override
     public void onResponse(Call<Bitmap> call, Response<Bitmap> response) {
@@ -103,11 +155,29 @@ public class FragmentProcess extends Fragment implements Callback<Bitmap>, View.
             return;
         }
 
+        Fragment fragment = FragmentResult.instance(mUri);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            int duration = getResources().getInteger(android.R.integer.config_mediumAnimTime);
+
+            Slide slideTransition = new Slide(Gravity.LEFT);
+            slideTransition.setDuration(duration);
+            setExitTransition(slideTransition);
+
+            Slide slideTransition2 = new Slide(Gravity.RIGHT);
+            slideTransition2.setDuration(duration);
+            fragment.setEnterTransition(slideTransition2);
+
+            TransitionInflater inflater = TransitionInflater.from(getContext());
+            Transition transition = inflater.inflateTransition(R.transition.transition_default);
+            fragment.setSharedElementEnterTransition(transition);
+        }
+
         IActivity activity = (IActivity) getActivity();
         activity.setImage(image);
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.frg_docker, FragmentResult.instance(mUri))
+                .replace(R.id.frg_docker, fragment)
+                .addSharedElement(mIvProcess, ViewCompat.getTransitionName(mIvProcess))
                 .commitAllowingStateLoss();
     }
 

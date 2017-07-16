@@ -4,6 +4,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,10 +65,28 @@ public class FragmentPreview extends Fragment {
         String rate = getRate();
         String noise = getNoise();
 
+        Fragment fragment = FragmentProcess.instance(mUri, type, rate, noise);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            int duration = getResources().getInteger(android.R.integer.config_mediumAnimTime);
+
+            Slide slideTransition = new Slide(Gravity.LEFT);
+            slideTransition.setDuration(duration);
+            setExitTransition(slideTransition);
+
+            Slide slideTransition2 = new Slide(Gravity.RIGHT);
+            slideTransition2.setDuration(duration);
+            fragment.setEnterTransition(slideTransition2);
+
+            TransitionInflater inflater = TransitionInflater.from(getContext());
+            Transition transition = inflater.inflateTransition(R.transition.transition_default);
+            fragment.setSharedElementEnterTransition(transition);
+        }
+
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.frg_docker, FragmentProcess.instance(mUri, type, rate, noise))
+                .replace(R.id.frg_docker, fragment)
                 .addToBackStack("preview")
+                .addSharedElement(mIvPreview, ViewCompat.getTransitionName(mIvPreview))
                 .commitAllowingStateLoss();
     }
 

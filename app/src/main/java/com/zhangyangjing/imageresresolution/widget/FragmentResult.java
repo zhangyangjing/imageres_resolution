@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,16 +55,18 @@ public class FragmentResult extends Fragment implements View.OnKeyListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mBtnSave.setOnKeyListener(this);
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(this);
 
         String uriStr = getArguments().getString(ARG_IMAGE_URI);
         Uri uri = Uri.parse(uriStr);
+        mIvSrc.setImageURI(uri);
 
         IActivity iActivity = (IActivity) getActivity();
         mImage = iActivity.getImage();
         iActivity.setImage(null);
-
-        mIvSrc.setImageURI(uri);
         mIvDst.setImageBitmap(mImage);
     }
 
@@ -80,7 +83,8 @@ public class FragmentResult extends Fragment implements View.OnKeyListener {
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (KeyEvent.KEYCODE_BACK == keyCode && KeyEvent.ACTION_DOWN == event.getAction()) {
-            getFragmentManager().popBackStack("preview", 0);
+            getFragmentManager().beginTransaction().hide(this).commitAllowingStateLoss();
+            getFragmentManager().popBackStack("select", FragmentManager.POP_BACK_STACK_INCLUSIVE);
             return true;
         }
         return false;

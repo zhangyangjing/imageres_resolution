@@ -50,6 +50,7 @@
         android:layout_height="220dp"
         android:background="@drawable/find_btn_bg"
         android:elevation="2dp"
+        android:transitionName="@string/simple_fragment_transition"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
